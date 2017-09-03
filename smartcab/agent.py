@@ -45,11 +45,11 @@ class LearningAgent(Agent):
             self.epsilon = 0
             self.alpha = 0
         else: # Update during training trails.                                                      
-            #self.epsilon -= 0.05 # Update epsilon in a decaying fashion. More trials => Less exploration. (20 training trials)
+            #self.epsilon -= 0.05 # Update epsilon in a decaying fashion. More trials => Less exploration. (20 training trials)      #
             #self.alpha -= 0.05 # Decaying function for alpha as well. More trials => less weight to reward, more to Q value (20 training trials)
-            self.epsilon -= 0.025 # (40 trining trails)                                            #
-            self.alpha -= 0.025 # (40 trining trails)                                              #
-
+            self.epsilon -= 0.01 # (100 training trails)                                            #
+            self.alpha -= 0.01 # (100 training trails)                                              #
+            
         return None
 
     def build_state(self):
@@ -74,9 +74,11 @@ class LearningAgent(Agent):
         
         # Set 'state' as a tuple of relevant data for the agent        
         # waypoint is a string, inputs is a dictionary.
-        # Only 'oncoming' is relevant when turning left. 'left' and 'right' are taken into account by 'light'.
-        state = (waypoint, inputs['light'], inputs['oncoming']) 
-
+        # Only 'oncoming' is relevant when turning left. 'right' IS taken into account by 'light'.
+        # 'left' is necessary for turning right when 'light' is red.
+        
+        state = (waypoint, inputs['light'], inputs['left'], inputs['oncoming'])
+        
         return state
 
 
